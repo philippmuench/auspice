@@ -309,20 +309,7 @@ class Info extends React.Component {
           <div width={this.props.width} style={styles.title}>
             {title}
           </div>
-          <div width={this.props.width} style={styles.n}>
-            {animating ? `Animation in progress. ` : null}
-            {this.props.selectedStrain ? this.selectedStrainButton(this.props.selectedStrain) : null}
-            {/* part 1 - the summary */}
-            {showExtended ? summary : null}
-            {/* part 2 - the filters */}
-            {showExtended && filters.length ? (
-              <span>
-                {"Filtered to "}
-                {filters.map((d) => d)}
-                {". "}
-              </span>
-            ) : null}
-          </div>
+          
         </div>
       </Card>
     );

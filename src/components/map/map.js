@@ -402,7 +402,7 @@ class Map extends React.Component {
       scrollWheelZoom: false,
       maxBounds: this.getBounds(),
       minZoom: 2,
-      maxZoom: 10,
+      maxZoom: 20,
       zoomControl: false,
       /* leaflet sleep see https://cliffcloud.github.io/Leaflet.Sleep/#summary */
       // true by default, false if you want a wild map
@@ -435,6 +435,7 @@ class Map extends React.Component {
   }
 
   animationButtons() {
+    return null;
     if (this.props.narrativeMode) return null;
     const buttonBaseStyle = {
       color: "#FFFFFF",

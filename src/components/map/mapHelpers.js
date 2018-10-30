@@ -157,7 +157,7 @@ export const drawDemesAndTransmissions = (
     .style("stroke", "none")
     .style("fill-opacity", 0.65)
     .style("fill", (d) => { return d.color; })
-    .attr("r", (d) => { return 4 * Math.sqrt(d.count); })
+    .attr("r", (d) => { return 2.7 * Math.sqrt(d.count); })
     .attr("transform", (d) => {
       return "translate(" + d.coords.x + "," + d.coords.y + ")";
     });

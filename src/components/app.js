@@ -41,7 +41,7 @@ const Contents = ({showSpinner, styles, availableWidth, availableHeight, panels,
     /* heights */
     const numThinPanels = true + show("entropy") + show("frequencies") - 1;
     if (numThinPanels === 0) {
-      bigHeightFraction = 1;
+      bigHeightFraction = 1.5;
     } else if (numThinPanels === 1) {
       bigHeightFraction = 0.7;
       chartHeightFraction = 0.3;
@@ -61,6 +61,7 @@ const Contents = ({showSpinner, styles, availableWidth, availableHeight, panels,
   }
 
   const big = computeResponsive({horizontal: bigWidthFraction, vertical: bigHeightFraction, availableWidth, availableHeight});
+  big.height = 700;
   const chart = computeResponsive({horizontal: chartWidthFraction, vertical: chartHeightFraction, availableWidth, availableHeight, minHeight: 150});
 
   /* TODO */

@@ -282,19 +282,15 @@ const modifyStateViaTree = (state, tree, treeToo) => {
 };
 
 const checkAndCorrectErrorsInState = (state, metadata, query, tree) => {
-  /* The one (bigish) problem with this being in the reducer is that
-  we can't have any side effects. So if we detect and error introduced by
-  a URL QUERY (and correct it in state), we can't correct the URL */
-  /* colorBy */
-  if (!metadata.colorOptions) {
-    metadata.colorOptions = {};
+  /* check want to check that the (currently set) colorBy (state.colorBy) is valid,
+   * and fall-back to an available colorBy if not
+   */
+  if (!metadata.colorings) {
+    metadata.colorings = {};
   }
   const fallBackToDefaultColorBy = () => {
-    const availableNonGenotypeColorBys = Object.keys(metadata.colorOptions);
-    if (availableNonGenotypeColorBys.indexOf("gt") > -1) {
-      availableNonGenotypeColorBys.splice(availableNonGenotypeColorBys.indexOf("gt"), 1);
-    }
-
+    const availableNonGenotypeColorBys = Object.keys(metadata.colorings)
+      .filter((colorKey) => colorKey !== "gt");
     if (metadata.defaults && metadata.defaults.colorBy && availableNonGenotypeColorBys.indexOf(metadata.defaults.colorBy) !== -1) {
       console.warn("colorBy falling back to", metadata.defaults.colorBy);
       state.colorBy = metadata.defaults.colorBy;
@@ -320,7 +316,7 @@ const checkAndCorrectErrorsInState = (state, metadata, query, tree) => {
     if (!decodeColorByGenotype(state.colorBy, state.geneLength)) {
       fallBackToDefaultColorBy();
     }
-  } else if (Object.keys(metadata.colorOptions).indexOf(state.colorBy) === -1) {
+  } else if (Object.keys(metadata.colorings).indexOf(state.colorBy) === -1) {
     /* if it's a _non_ genotype colorBy AND it's not a valid option, fall back to the default */
     fallBackToDefaultColorBy();
   }
@@ -471,11 +467,14 @@ export const createStateFromQueryOrJSONs = ({
     if (metadata === undefined) {
       metadata = {};
     }
+
+    if (json.colorings) {
+      metadata.colorings = json.colorings;
+    }
+
     if (Object.prototype.hasOwnProperty.call(metadata, "loaded")) {
       console.error("Metadata JSON must not contain the key \"loaded\". Ignoring.");
     }
-    metadata.colorOptions = metadata.color_options;
-    delete metadata.color_options;
     metadata.loaded = true;
     /* entropy state */
     entropy = entropyCreateStateFromJsons(metadata);
